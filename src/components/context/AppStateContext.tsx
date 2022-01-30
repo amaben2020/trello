@@ -1,3 +1,13 @@
+import React, { createContext, useReducer, useContext } from "react";
+
+export const AppStateContext = createContext<AppStateContextProps>(
+  {} as AppStateContextProps
+);
+
+interface AppStateContextProps {
+  state: AppState;
+}
+
 //single task
 interface Task {
   id: string;
@@ -9,6 +19,17 @@ interface List {
   // group of tasks in a house
   tasks: Task[];
 }
+
+//The technique we are using here is called discriminated union (pipe symbol)
+type Action =
+  | {
+      type: "ADD_LIST";
+      payload: string;
+    }
+  | {
+      type: "ADD_TASK";
+      payload: { text: string; taskId: string };
+    };
 
 export interface AppState {
   lists: List[];
@@ -32,4 +53,15 @@ const appData: AppState = {
       tasks: [{ id: "c3", text: "Begin to use static typing" }],
     },
   ],
+};
+export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
+  const { Provider } = AppStateContext;
+  return <Provider value={{ state: appData }}>{children}</Provider>;
+};
+
+//custom hooks
+//Inside of this function, we retrieve the value from AppStateContext using useContext
+
+export const useAppState = () => {
+  return useContext(AppStateContext);
 };

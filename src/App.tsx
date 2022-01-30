@@ -3,19 +3,21 @@ import { Column } from "./Column";
 import { Card } from "./Card";
 import { AppContainer } from "./styles";
 import { AddNewItem } from "./components/AddNewItem";
+import { useAppState } from "./components/context/AppStateContext";
+import { useContextHook } from "./components/Hooks/useContextHook";
+import { NewItemForm } from "./components/NewItemForm";
 
 function App() {
+  //const { state } = useAppState();
+
+  const { state } = useContextHook();
+  console.log("SATTATE", state);
+
   return (
     <AppContainer>
-      <Column text="To Do">
-        <Card text="Generate app scaffold" />
-      </Column>
-      <Column text="In Progress">
-        <Card text="Learn Typescript" />
-      </Column>
-      <Column text="Done">
-        <Card text="Begin to use static typing" />
-      </Column>
+      {state.lists.map((list, i) => (
+        <Column key={list.id} text={list.text} index={i} />
+      ))}
       <AddNewItem toggleButtonText="+ Add another list" onAdd={console.log} />
     </AppContainer>
   );
