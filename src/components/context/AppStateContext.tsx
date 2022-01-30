@@ -1,4 +1,5 @@
 import React, { createContext, useReducer, useContext } from "react";
+import { appStateReducer } from "./AppReducer";
 
 export const AppStateContext = createContext<AppStateContextProps>(
   {} as AppStateContextProps
@@ -6,6 +7,7 @@ export const AppStateContext = createContext<AppStateContextProps>(
 
 interface AppStateContextProps {
   state: AppState;
+  dispatch: any;
 }
 
 //single task
@@ -19,17 +21,6 @@ interface List {
   // group of tasks in a house
   tasks: Task[];
 }
-
-//The technique we are using here is called discriminated union (pipe symbol)
-type Action =
-  | {
-      type: "ADD_LIST";
-      payload: string;
-    }
-  | {
-      type: "ADD_TASK";
-      payload: { text: string; taskId: string };
-    };
 
 export interface AppState {
   lists: List[];
@@ -55,8 +46,10 @@ const appData: AppState = {
   ],
 };
 export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
+  const [state, dispatch] = useReducer(appStateReducer, appData);
+
   const { Provider } = AppStateContext;
-  return <Provider value={{ state: appData }}>{children}</Provider>;
+  return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };
 
 //custom hooks
