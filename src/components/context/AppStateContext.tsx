@@ -53,8 +53,7 @@ export const AppStateProvider = ({ children }: React.PropsWithChildren<{}>) => {
 };
 
 //custom hooks
-//Inside of this function, we retrieve the value from AppStateContext using useContext
-
+//Inside of this function, we retrieve the value from AppStateContext using useContext  i.e const {state} = useAppState()
 export const useAppState = () => {
   return useContext(AppStateContext);
 };
