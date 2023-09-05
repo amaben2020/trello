@@ -8,17 +8,20 @@ import { useContextHook } from "./components/Hooks/useContextHook";
 import { NewItemForm } from "./components/NewItemForm";
 
 function App() {
-  //const { state } = useAppState();
+  const { state, dispatch } = useAppState();
 
-  const { state } = useContextHook();
-  console.log("SATTATE", state);
+  // const { state, dispatch } = useContextHook();
+  // console.log("SATTATE", state);
 
   return (
     <AppContainer>
       {state.lists.map((list, i) => (
         <Column key={list.id} text={list.text} index={i} />
       ))}
-      <AddNewItem toggleButtonText="+ Add another list" onAdd={console.log} />
+      <AddNewItem
+        toggleButtonText="+ Add another list"
+        onAdd={(text) => dispatch({ type: "ADD_LIST", payload: text })}
+      />
     </AppContainer>
   );
 }

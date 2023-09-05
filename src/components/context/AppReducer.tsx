@@ -31,7 +31,6 @@ export const appStateReducer = (state: AppState, action: Action): AppState => {
       };
     }
     case "ADD_LIST": {
-      // Reducer logic here...
       return {
         ...state,
         lists: [
